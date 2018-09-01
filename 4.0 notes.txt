@@ -1,0 +1,5 @@
++ Add y/n function to ask user. return 1 if yes 0 if no.
++ Add scrolling
++ Password and username
++ Menu at top of console.
++ more UNIX functionality, less dependencies on the console(); function.

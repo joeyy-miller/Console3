@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<!-- ++ v3.0.3 ++ !-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Console</title>
+		<script type="text/javascript">
+			var programname="no program";
+			var programdrive=0;
+		</script>
+		<script src="consoleprogram.js"></script>
+		<script type="text/javascript">
+			var consoleline="line1";//used to identify the line number.
+			var linenumber=1;//used in calculation for console line
+			var runnumber=1;//So scroll knows which HTML line to target and replace.
+			var drive=0;//Program in use status. 0 = nothing in drive 1 = program in use.
+			var mount=0;//Defines if a program is mounted or not.
+			var power=0;//Power state of system 0 = off 1 = on.
+			var running = 0;//Used in turnOn(); function to show the "Welcome" message or not. Checks if 
+			var turn = 1;//local variable for turnOff() and turnOn().
+			var menu=0;//if program has a menu
+
+			function console(data1)
+			{
+				if (power == 1) {
+				if (drive == 1)
+				{
+					switch(document.getElementById("consoleinput").value)
+					{
+						case "exit":
+							compReset();
+							mount = 1;
+							console("clear");
+							turnOff();
+							setTimeout(function() {
+								consolewrite("Program closed.");
+							},1000);
+							break;
+						case "clear":
+							for (var x=1;x<=17;x++)
+							{
+								document.getElementById("line"+x).innerHTML = "";
+								linenumber=1;
+								consoleline="line1";							
+								runnumber=1;
+							}
+							break;
+						default:
+							programuser();
+					}
+				}
+				if (drive == 0)
+				{
+					switch(data1)
+					{
+						case "submit":
+							switch(document.getElementById("consoleinput").value)
+							{
+								case "":
+									consolewrite("No imput detected.");
+									break;
+								case "a":
+									consolewrite("Rewritten");
+									break;
+								case "about":
+									consolewrite("Designed by iJD in sunny California.");
+									consolewrite("Do not distribute Console without written permission from the iJD corporation.");
+									consolewrite("Console 3 version 3.0.3");
+									break;
+								case "clear":
+									console("clear");
+									break;
+								case "color":
+									consolewrite("Change console to what color? {red, blue, black, gray, green}.");
+									break;
+								case "color blue":
+									console("changeblue");
+									consolewrite("Console color changed to blue.");
+									break;
+								case "color black":
+									console("changeblack");
+									consolewrite("Console color changed to black.");
+									break;
+								case "color gray":
+									console("changegray");
+									consolewrite("Console color changed to gray.");
+									break;
+								case "color red":
+									console("changered");
+									consolewrite("Console color changed to red.");
+									break;
+								case "color green":
+									console("changegreen");
+									consolewrite("Console color changed to green.");
+									break;
+								case "color lemon":
+									console("changelemon");
+									consolewrite("Console color changed to lemon chiffon.");
+									break;
+								case "date":
+									console("date")
+									break;
+								case "drive":
+									if (drive ==1)
+									{
+										consolewrite(programname+"is curently mounted.");
+									}
+									if (drive ==0)
+									{
+										consolewrite("Nothing is curently mounted.");
+									}
+									break;
+								case "driveinfo":
+									console("runwhat");
+									break;
+								case "drive info":
+									console("runwhat");
+									break;
+								case "help":
+									consolewrite("Console 3. all commands are lower case.");
+									consolewrite("system: info, version, date, time, clear, a, off.");
+									consolewrite("drive: mount, run, drive info, unmount.");
+									consolewrite("color: color {red, blue, black, gray, green}, text {black, gray, white}.");
+									break;
+								case "info":
+									consolewrite("Designed by iJD in sunny California.");
+									consolewrite("Do not distribute Console without written permission from the iJD corporation.");
+									consolewrite("Console 3 version 3.0.3");
+									break;
+								case "mount":
+									console("mount");
+									break;
+								case "mount drive":
+									console("mount");
+									break;
+								case "off":
+									onoff();
+									break;
+								case "reset":
+									console("clear");
+									break;
+								case "run":
+									if (mount == 1 ) {
+										turnOn();
+										running = 1;
+										setTimeout(function() {
+											console("clear");
+											program("first");
+											drive=1;
+										},1000);
+									} else {
+										consolewrite("No program mounted.");
+									}
+									break;
+								case "text":
+									consolewrite("Change text to what color? {black, gray, white}");
+									break;
+								case "text black":
+									console("textblack");
+									consolewrite("Text color changed to black.");
+									break;
+								case "text white":
+									console("textwhtie");
+									consolewrite("Text color changed to white.");
+									break;
+								case "text gray":
+									console("textgray");
+									consolewrite("Text color changed to gray.");
+									break;
+								case "time":
+									console("time");
+									break;
+								case "unmount":
+									if (programdrive == 1 && mount == 1)
+									{
+										consolewrite(programname+" unmounted.");
+										mount=0;
+									}
+									else
+									{
+										consolewrite("No program found.");
+									}
+									break;
+								case "version":
+									consolewrite("Console: v3.0.0");
+									break;
+								default:
+									consolewrite("That wasn't a recognized command.");
+							}
+							break;
+						case "clear":
+							for (var x=1;x<=17;x++)
+							{
+								document.getElementById("line"+x).innerHTML = "";
+								linenumber=1;
+								consoleline="line1";							
+								runnumber=1;
+							}
+							break;
+						case "date":
+							var date=new Date().getDay();
+							switch(date)
+							{
+								case 0:
+									date="Sunday";
+									break;
+								case 1:
+									date="Monday";
+									break;
+								case 2:
+									date="Tuesday";
+									break;
+								case 3:
+									date="Wednesday";
+									break;
+								case 4:
+									date="Thursday";
+									break;
+								case 5:
+									date="Friday";
+									break;
+								case 6:
+									date="Saturday";
+									break;
+								default:
+									date="Error fetching date";
+							}
+							var currentTime = new Date();
+							var month = currentTime.getMonth() + 1;
+							var day = currentTime.getDate();
+							var year = currentTime.getFullYear();
+							consolewrite("It is "+date+"; "+month + "/" + day + "/" + year+".");
+						break;
+						case "changered":
+							document.getElementById("consoledisplay").style.backgroundColor = "#800000";
+							break;
+						case "changegray":
+							document.getElementById("consoledisplay").style.backgroundColor = "gray";
+							break;
+						case "changeblack":
+							document.getElementById("consoledisplay").style.backgroundColor = "black";
+							break;
+						case "changeblue":
+							document.getElementById("consoledisplay").style.backgroundColor = "#9bc0e5";
+							break;
+						case "changegreen":
+							document.getElementById("consoledisplay").style.backgroundColor = "#7acc51";
+							break;
+						case "changelemon":
+							document.getElementById("consoledisplay").style.backgroundColor = "#FFFACD";
+							break;
+						case "mount":
+							if (programdrive == 1)
+							{
+								consolewrite(programname+" mounted.");
+								mount=1;
+							}
+							else
+							{
+								consolewrite("No program found.");
+							}
+							break;
+						case "runwhat":
+							var disdrive="{not mounted}";
+							if (mount == 1)
+							{
+								disdrive=programname;
+							}
+							consolewrite("[Program mounted: "+disdrive+"].")						
+							break;
+						case "textgray":
+							document.getElementById("consoledisplay").style.color = "gray";
+							break;
+						case "textwhtie":
+							document.getElementById("consoledisplay").style.color = "white";
+							break;
+						case "textblack":
+							document.getElementById("consoledisplay").style.color = "black";
+							break;
+						case "time":
+							var currentTime = new Date()
+							var hours = currentTime.getHours()
+							var minutes = currentTime.getMinutes()
+							var am="no"
+							if (minutes < 10)
+							{
+								minutes = "0" + minutes;
+							}
+							if(hours < 11)
+							{
+								am="AM";
+							}
+							else
+							{
+								am="PM";
+							}
+							consolewrite("It is "+hours+":"+minutes+" "+am);
+							break;
+						}
+					}
+				}
+			}
+
+			/*NON-CONSOLE FUNCTIONS*/
+
+			function onoff(){
+				if (power == 1) {
+					turnOff();
+					console("changeblack");
+					console("textwhtie");
+					compReset();
+					document.getElementById('buttonOn').style.background = '';
+					power = 0;
+				} else {
+					power = 1;
+					drive = 0;
+					turnOn();
+					document.getElementById('buttonOn').style.background = 'green';
+				}
+			}
+
+			function compReset() {
+				consoleline="line1";
+				linenumber=1;
+				runnumber=1;
+				drive=0;
+				mount=0;
+				power=1;
+				running = 0;
+				turn = 1;
+				menu=0
+			}
+
+			function turnOn() {
+				if (power == 1) {
+					console("clear");
+					switch (turn) {
+						case 1:
+							consolewrite("||---------|");
+							break;
+						case 2:
+							consolewrite("|-|--------|");
+							break;
+						case 3:
+							consolewrite("|--|-------|");
+							break;
+						case 4:
+							consolewrite("|---|------|");
+							break;
+						case 5:
+							consolewrite("|----|-----|");
+							break;
+						case 6:
+							consolewrite("|-------|--|");
+							break;
+						case 7:
+							consolewrite("|-------|--|");
+							break;
+						case 8:
+							consolewrite("|--------|-|");
+							break;
+						case 9:
+							consolewrite("|---------||");
+							break;
+						case 10:
+							if (running != 1) {
+								consolewrite("Welcome to Console 3.");
+							}
+					}
+					turn++;
+					if (turn <= 10){
+						setTimeout(turnOn, 100);
+					} else {
+						turn = 1;
+					}
+				}
+			}
+
+			function turnOff() {
+				for (var x=1;x<=17;x++)
+				{
+					document.getElementById("line"+x).innerHTML = "";
+					linenumber=1;
+					consoleline="line1";							
+					runnumber=1;
+				}
+				switch (turn) {
+					case 1:
+						consolewrite("|---------||");
+						break;
+					case 2:
+						consolewrite("|--------|-|");
+						break;
+					case 3:
+						consolewrite("|-------|--|");
+						break;
+					case 4:
+						consolewrite("|---|------|");
+						break;
+					case 5:
+						consolewrite("|--|-------|");
+						break;
+					case 6:
+						consolewrite("||---------|");
+						break;
+				}
+				turn++;
+				if (turn < 7){
+					setTimeout(turnOff, 100);
+				} else if (turn == 7) {
+					setTimeout(turnOff, 50);
+				} else {
+					turn = 1;
+				}
+			}
+
+			function scroll() {
+				if (menu == 0){
+					document.getElementById("line1").innerHTML = document.getElementById("line2").innerHTML;
+					document.getElementById("line2").innerHTML = document.getElementById("line3").innerHTML;
+					document.getElementById("line3").innerHTML = document.getElementById("line4").innerHTML;
+					document.getElementById("line4").innerHTML = document.getElementById("line5").innerHTML;
+					document.getElementById("line5").innerHTML = document.getElementById("line6").innerHTML;
+					document.getElementById("line6").innerHTML = document.getElementById("line7").innerHTML;
+					document.getElementById("line7").innerHTML = document.getElementById("line8").innerHTML;
+					document.getElementById("line8").innerHTML = document.getElementById("line9").innerHTML;
+					document.getElementById("line9").innerHTML = document.getElementById("line10").innerHTML;
+					document.getElementById("line10").innerHTML = document.getElementById("line11").innerHTML;
+					document.getElementById("line11").innerHTML = document.getElementById("line12").innerHTML;
+					document.getElementById("line12").innerHTML = document.getElementById("line13").innerHTML;
+					document.getElementById("line13").innerHTML = document.getElementById("line14").innerHTML;
+					document.getElementById("line14").innerHTML = document.getElementById("line15").innerHTML;
+					document.getElementById("line15").innerHTML = document.getElementById("line16").innerHTML;
+					document.getElementById("line16").innerHTML = document.getElementById("line17").innerHTML;	
+				}
+				if (menu == 1) {
+					document.getElementById("line3").innerHTML = document.getElementById("line4").innerHTML;
+					document.getElementById("line4").innerHTML = document.getElementById("line5").innerHTML;
+					document.getElementById("line5").innerHTML = document.getElementById("line6").innerHTML;
+					document.getElementById("line6").innerHTML = document.getElementById("line7").innerHTML;
+					document.getElementById("line7").innerHTML = document.getElementById("line8").innerHTML;
+					document.getElementById("line8").innerHTML = document.getElementById("line9").innerHTML;
+					document.getElementById("line9").innerHTML = document.getElementById("line10").innerHTML;
+					document.getElementById("line10").innerHTML = document.getElementById("line11").innerHTML;
+					document.getElementById("line11").innerHTML = document.getElementById("line12").innerHTML;
+					document.getElementById("line12").innerHTML = document.getElementById("line13").innerHTML;
+					document.getElementById("line13").innerHTML = document.getElementById("line14").innerHTML;
+					document.getElementById("line14").innerHTML = document.getElementById("line15").innerHTML;
+					document.getElementById("line15").innerHTML = document.getElementById("line16").innerHTML;
+					document.getElementById("line16").innerHTML = document.getElementById("line17").innerHTML;	
+				}
+			}
+
+			var menuDat = 0; //makes sure the first two menu items have no line numbers.
+			function consolewrite(data1)
+			{
+				if (linenumber <= 17)
+				{
+					if (menu == 1 && linenumber < 2){
+						linenumber = 2;
+						runnumber = 0;
+					} else {
+						data1 = data1.toString();
+						data1 = data1.substring(0,80);
+						document.getElementById(consoleline).innerHTML = "["+runnumber+"]"+data1;
+					}
+					runnumber++;
+					linenumber++;
+					consoleline="line"+linenumber;
+				} else if (linenumber > 17) { 
+					scroll();
+					document.getElementById("line17").innerHTML = "["+runnumber+"]"+data1;
+					linenumber++;
+					runnumber++;
+				}
+			}
+
+			function centerText(centered){
+				var lengthh = (82 - centered.length) / 2;
+				var center = "";
+
+				for (var x = 0; x < lengthh; x++){
+					center = center + "&nbsp;";
+				}
+
+				center = center + centered;
+
+				return center;
+			}
+
+			function writeMenu(data1,data2){
+				data1 = data1.substring(0,83);
+				data2 = data2.substring(0,83);
+
+				document.getElementById("line1").innerHTML = data1;
+				document.getElementById("line2").innerHTML = data2;
+			}
+
+			function checkifenter()
+			{
+				if (window.event.keyCode == 13) 
+				{
+					console('submit');
+					document.getElementById("consoleinput").value = "";
+				}
+			}
+		</script>		
+	</head>
+	<body bgcolor="black">
+		<font face="courier" color="white">
+			Console <font color="lightgray" face="helvetica" size="2">3</font><br/>
+			&copy;1983 <i>i</i>JD Computers<br/>
+			Do not distribute.
+			<div id="consoledisplay" style="width:800px;height: 308px; padding:2px;background-color: black; border:2px solid darkgray; margin:5px;color: white;">
+				<a id="line1"></a><br/>
+				<a id="line2"></a><br/>
+				<a id="line3"></a><br/>
+				<a id="line4"></a><br/>
+				<a id="line5"></a><br/>
+				<a id="line6"></a><br/>
+				<a id="line7"></a><br/>
+				<a id="line8"></a><br/>
+				<a id="line9"></a><br/>
+				<a id="line10"></a><br/>
+				<a id="line11"></a><br/>
+				<a id="line12"></a><br/>
+				<a id="line13"></a><br/>
+				<a id="line14"></a><br/>
+				<a id="line15"></a><br/>
+				<a id="line16"></a><br/>
+				<a id="line17"></a><br/>
+			</div>
+			<form id="console2">
+				<input type="text" id="consoleinput" style="width: 733px; margin: 5px; font-family:  Courier;" onKeyPress="checkifenter();" autocomplete="off">
+				<input type="text" style="display: none;">
+				<button type="button" style="font-family: Courier;" id="buttonOn" onclick="onoff();">On/Off</button>
+			</form>
+			<br />
+			<hr />
+			&copy;Joey Miller, 2012-2015
+		</font>
+	</body>
+</html>

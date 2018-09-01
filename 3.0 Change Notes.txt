@@ -1,0 +1,36 @@
+Console 3 change notes:
+
+Front End:
++ On/off functionality
++ Unmount function.
++ Animations for loading.
++ New help menu.
++ New about command.
++ Menu's can be added for programs.
+    + Menu's can be enabled by a program
+    + Menu's can be rewritten by writeMenu(string, string) fuction.
+
+Backend:
++ Reorganized the console(); function.
++ More UNIX like changes, less dependensies on the console() function.
++ New Functions: 
+    +onOff();
+        +turnOff();
+        +turnOn();
+    +scroll();
+    +writeMenu();
+    +compReset();
+
+
+Console 3 change notes (v3.0.1):
+
++ Fixed a problem with the second line of a program's menu being overwritten.
+- Got rid of var menuDat (deprocated by new method).
+
+Console 3 change notes (v3.0.2):
+
+- Removed "change log" command.
+
+Console 3 change notes (v3.0.3):
+
+~ Fixed compReset() function for critical errors.
